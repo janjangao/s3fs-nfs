@@ -14,17 +14,19 @@ COPY --from=0 /usr/local/bin/ossfs /usr/local/bin/ossfs
 ARG OSSFS_PATH=/ossfs
 # RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories && apk --update --no-cache add fuse curl libxml2 libstdc++ && \
 RUN	apk --update --no-cache add fuse curl libxml2 libstdc++										&& \
-	mkdir ${OSSFS_PATH} && \
-	touch /etc/passwd-ossfs && \
-	chmod 640 /etc/passwd-ossfs
+	touch /etc/passwd-ossfs 																	&& \
+	chmod 640 /etc/passwd-ossfs																	&& \
+	addgroup -S nfsnobody && adduser -S nfsnobody -G nfsnobody 
 
 ENV OSSFS_PATH ${OSSFS_PATH}
 ENV BUCKET ossfs-nfs
 ENV ENDPOINT_URL oss-cn-hangzhou-internal.aliyuncs.com
 ENV ACCESS_KEY access_key
 ENV ACCESS_SECRET access_secret
-ENV NFS_EXPORT_0 $OSSFS_PATH                  *(rw,fsid=1,no_root_squash,no_subtree_check)
+ENV NFS_EXPORT_0 $OSSFS_PATH                  *(rw,fsid=0,no_root_squash,no_subtree_check)
 
 ENTRYPOINT echo $BUCKET:$ACCESS_KEY:$ACCESS_SECRET > /etc/passwd-ossfs  						&& \
+	mkdir ${OSSFS_PATH}																			&& \
+	chown nfsnobody:nfsnobody -R ${OSSFS_PATH}													&& \
 	ossfs $BUCKET $OSSFS_PATH -ourl=$ENDPOINT_URL												 ; \
 	entrypoint.sh
