@@ -30,3 +30,6 @@ ENTRYPOINT echo $BUCKET:$ACCESS_KEY:$ACCESS_SECRET > /etc/passwd-ossfs  						&&
 	chown nfsnobody:nfsnobody -R ${OSSFS_PATH}													&& \
 	ossfs $BUCKET $OSSFS_PATH -ourl=$ENDPOINT_URL												 ; \
 	entrypoint.sh
+  
+
+  
