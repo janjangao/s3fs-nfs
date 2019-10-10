@@ -23,7 +23,7 @@ ENV BUCKET ossfs-nfs
 ENV ENDPOINT_URL oss-cn-hangzhou-internal.aliyuncs.com
 ENV ACCESS_KEY access_key
 ENV ACCESS_SECRET access_secret
-ENV NFS_EXPORT_0 $OSSFS_PATH                  *(rw,fsid=0,no_root_squash,no_subtree_check)
+ENV NFS_EXPORT_0 $OSSFS_PATH                  *(rw,fsid=0,no_subtree_check,all_squash,anonuid=0,anongid=0)
 
 ENTRYPOINT echo $BUCKET:$ACCESS_KEY:$ACCESS_SECRET > /etc/passwd-ossfs  						&& \
 	mkdir ${OSSFS_PATH}																			&& \
