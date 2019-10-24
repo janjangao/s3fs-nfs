@@ -13,7 +13,7 @@ LABEL maintainer="hayond@qq.com"
 COPY --from=0 /usr/local/bin/ossfs /usr/local/bin/ossfs
 ARG OSSFS_PATH=/ossfs
 # RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories && apk --update --no-cache add fuse curl libxml2 libstdc++ && \
-RUN	apk --update --no-cache add fuse curl libxml2 libstdc++										&& \
+RUN	apk --update --no-cache add fuse curl libxml2 libstdc++	mailcap								&& \
 	touch /etc/passwd-ossfs 																	&& \
 	chmod 640 /etc/passwd-ossfs																	
 
