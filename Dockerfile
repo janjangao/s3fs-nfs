@@ -26,7 +26,7 @@ ENV NFS_EXPORT_0 ${OSSFS_PATH}                 *(rw,insecure,sync,no_subtree_che
 
 ENTRYPOINT echo $BUCKET:$ACCESS_KEY:$ACCESS_SECRET > /etc/passwd-ossfs  						&& \
 	mkdir ${OSSFS_PATH}																			&& \
-	# ossfs $BUCKET $OSSFS_PATH -ourl=$ENDPOINT_URL -o allow_other								 ; \
+	ossfs $BUCKET $OSSFS_PATH -ourl=$ENDPOINT_URL -o allow_other								 ; \
 	entrypoint.sh
   
 
