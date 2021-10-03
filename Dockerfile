@@ -1,5 +1,4 @@
 FROM alpine:latest
-# RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories &&  apk --update --no-cache add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev && \
 RUN	apk --update --no-cache add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev && \
 	wget -qO- https://github.com/aliyun/ossfs/archive/master.tar.gz | tar xz          			&& \
 	cd ossfs-master 																 			&& \
@@ -12,7 +11,6 @@ FROM erichough/nfs-server:latest
 LABEL maintainer="hayond@qq.com"
 COPY --from=0 /usr/local/bin/ossfs /usr/local/bin/ossfs
 ARG OSSFS_PATH=/ossfs
-# RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories && apk --update --no-cache add fuse curl libxml2 libstdc++ && \
 RUN	apk --update --no-cache add fuse curl libxml2 libstdc++	mailcap								&& \
 	touch /etc/passwd-ossfs 																	&& \
 	chmod 640 /etc/passwd-ossfs																	
@@ -26,8 +24,7 @@ ENV NFS_EXPORT_0 ${OSSFS_PATH}                 *(rw,insecure,sync,no_subtree_che
 
 ENTRYPOINT echo $BUCKET:$ACCESS_KEY:$ACCESS_SECRET > /etc/passwd-ossfs  						&& \
 	mkdir ${OSSFS_PATH}																			&& \
-	ossfs $BUCKET $OSSFS_PATH -ourl=$ENDPOINT_URL -o allow_other								 ; \
+	ossfs $BUCKET $OSSFS_PATH -ourl=$ENDPOINT_URL -o max_stat_cache_size=0 -o allow_other		 ; \
 	entrypoint.sh
-  
 
-  
+
