@@ -1,4 +1,4 @@
-# ossfs-nfs
+# s3fs-nfs
 
 make oss to nfs server, can used for aliyun oss
 
