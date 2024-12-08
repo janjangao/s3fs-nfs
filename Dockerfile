@@ -32,8 +32,7 @@ RUN export AWS_S3_MOUNT="${AWS_S3_MOUNT:-${MOUNT}}"
 ENV SHARED_DIRECTORY $AWS_S3_MOUNT
 ENV SYNC true
 
-ENTRYPOINT ["tini -g -- docker-entrypoint.sh & /usr/bin/nfsd.sh"]
-
+ENTRYPOINT docker-entrypoint.sh;nfsd.sh
 
 EXPOSE 2049
 
