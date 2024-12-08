@@ -14,8 +14,25 @@ COPY nfsd.sh /usr/bin/nfsd.sh
 RUN chmod +x /usr/bin/nfsd.sh
 # --- nfs-server-alpine ---
 
+# --- docker-s3fs-client ---
+ENV ACCESS_KEY_ID=
+ENV SECRET_ACCESS_KEY=
+ENV URL=
+ENV BUCKET=
+ENV MOUNT=
+
+RUN export AWS_S3_ACCESS_KEY_ID=${AWS_S3_ACCESS_KEY_ID:-${ACCESS_KEY_ID}}
+RUN export AWS_S3_SECRET_ACCESS_KEY=${AWS_S3_SECRET_ACCESS_KEY:-${SECRET_ACCESS_KEY}}
+RUN export AWS_S3_URL=${AWS_S3_URL:-${URL}}
+RUN export AWS_S3_BUCKET=${AWS_S3_BUCKET:-${BUCKET}}
+RUN export AWS_S3_MOUNT=${AWS_S3_MOUNT:-${MOUNT}}
+
+# --- docker-s3fs-client ---
+
 ENV SHARED_DIRECTORY $AWS_S3_MOUNT
 ENV SYNC true
+
+ENTRYPOINT docker-entrypoint.sh;nfsd.sh
 
 EXPOSE 2049
 
