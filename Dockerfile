@@ -17,8 +17,6 @@ RUN chmod +x /usr/bin/nfsd.sh
 ENV SHARED_DIRECTORY $AWS_S3_MOUNT
 ENV SYNC true
 
-ENTRYPOINT docker-entrypoint.sh;nfsd.sh
-
 EXPOSE 2049
 
 
