@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 AWS_S3_ACCESS_KEY_ID=${AWS_S3_ACCESS_KEY_ID:-${ACCESS_KEY_ID}}
