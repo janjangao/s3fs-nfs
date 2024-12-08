@@ -14,15 +14,15 @@ RUN chmod +x /usr/bin/nfsd.sh
 # --- nfs-server-alpine ---
 
 # --- s3fs-nfs ---
-RUN mv /usr/bin/docker-entrypoint.sh /usr/bin/s3fs.sh
+RUN cp /usr/bin/docker-entrypoint.sh /usr/bin/s3fs.sh
 COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 RUN chmod +x /usr/bin/docker-entrypoint.sh
 
-ENV ACCESS_KEY_ID=
-ENV SECRET_ACCESS_KEY=
-ENV URL=
-ENV BUCKET=
-ENV MOUNT=
+ENV ACCESS_KEY_ID 
+ENV SECRET_ACCESS_KEY 
+ENV URL 
+ENV BUCKET 
+ENV MOUNT 
 # --- s3fs-nfs ---
 
 ENV SHARED_DIRECTORY $AWS_S3_MOUNT
