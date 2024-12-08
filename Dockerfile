@@ -1,27 +1,39 @@
-FROM efrecon/s3fs
-LABEL maintainer="hayond@qq.com"
-RUN apk add --no-cache --update --verbose nfs-utils bash mailcap                                         && \
-	rm -rf /var/cache/apk /sbin/halt /sbin/poweroff /sbin/reboot                                         && \
+FROM efrecon/s3fs:1.94
+LABEL maintainer="focussellingcute30years@gmail.com"
+
+# --- nfs-server-alpine ---
+RUN apk add --no-cache --update --verbose nfs-utils bash                                                 && \
+	rm -rf /var/cache/apk /tmp /sbin/halt /sbin/poweroff /sbin/reboot                                    && \
 	mkdir -p /var/lib/nfs/rpc_pipefs /var/lib/nfs/v4recovery                                             && \
 	echo "rpc_pipefs    /var/lib/nfs/rpc_pipefs rpc_pipefs      defaults        0       0" >> /etc/fstab && \
-	echo "nfsd  /proc/fs/nfsd   nfsd    defaults        0       0" >> /etc/fstab  
+	echo "nfsd  /proc/fs/nfsd   nfsd    defaults        0       0" >> /etc/fstab
 
-COPY s3fs.sh /usr/bin/s3fs.sh
-COPY nfsd.sh /usr/bin/nfsd.sh
 COPY exports /etc/
-COPY .bashrc /root/.bashrc
+COPY nfsd.sh /usr/bin/nfsd.sh
 
+RUN chmod +x /usr/bin/nfsd.sh
+# --- nfs-server-alpine ---
+
+# --- docker-s3fs-client ---
 ENV ACCESS_KEY_ID=
 ENV SECRET_ACCESS_KEY=
+ENV URL=
 ENV BUCKET=
-ENV URL=https://s3.amazonaws.com
-ENV MOUNT=/opt/s3fs/bucket
-ENV AUTHFILE=
+ENV MOUNT=
 
-ENV SHARED_DIRECTORY $MOUNT
+RUN export AWS_S3_ACCESS_KEY_ID="${AWS_S3_ACCESS_KEY_ID:-${ACCESS_KEY_ID}}"
+RUN export AWS_S3_SECRET_ACCESS_KEY="${AWS_S3_SECRET_ACCESS_KEY:-${SECRET_ACCESS_KEY}}"
+RUN export AWS_S3_URL="${AWS_S3_URL:-${URL}}"
+RUN export AWS_S3_BUCKET="${AWS_S3_BUCKET:-${BUCKET}}"
+RUN export AWS_S3_MOUNT="${AWS_S3_MOUNT:-${MOUNT}}"
+
+# --- docker-s3fs-client ---
+
+ENV SHARED_DIRECTORY $AWS_S3_MOUNT
 ENV SYNC true
 
-ENTRYPOINT s3fs.sh;nfsd.sh
+ENTRYPOINT ["tini -g -- docker-entrypoint.sh & /usr/bin/nfsd.sh"]
+
 
 EXPOSE 2049
 
