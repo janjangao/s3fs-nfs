@@ -10,29 +10,23 @@ RUN apk add --no-cache --update --verbose nfs-utils bash                        
 
 COPY exports /etc/
 COPY nfsd.sh /usr/bin/nfsd.sh
-
 RUN chmod +x /usr/bin/nfsd.sh
 # --- nfs-server-alpine ---
 
-# --- docker-s3fs-client ---
+# --- s3fs-nfs ---
+RUN mv /usr/bin/docker-entrypoint.sh /usr/bin/s3fs.sh
+COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
+RUN chmod +x /usr/bin/docker-entrypoint.sh
+
 ENV ACCESS_KEY_ID=
 ENV SECRET_ACCESS_KEY=
 ENV URL=
 ENV BUCKET=
 ENV MOUNT=
-
-RUN export AWS_S3_ACCESS_KEY_ID=${AWS_S3_ACCESS_KEY_ID:-${ACCESS_KEY_ID}}
-RUN export AWS_S3_SECRET_ACCESS_KEY=${AWS_S3_SECRET_ACCESS_KEY:-${SECRET_ACCESS_KEY}}
-RUN export AWS_S3_URL=${AWS_S3_URL:-${URL}}
-RUN export AWS_S3_BUCKET=${AWS_S3_BUCKET:-${BUCKET}}
-RUN export AWS_S3_MOUNT=${AWS_S3_MOUNT:-${MOUNT}}
-
-# --- docker-s3fs-client ---
+# --- s3fs-nfs ---
 
 ENV SHARED_DIRECTORY $AWS_S3_MOUNT
 ENV SYNC true
-
-ENTRYPOINT docker-entrypoint.sh;nfsd.sh
 
 EXPOSE 2049
 
