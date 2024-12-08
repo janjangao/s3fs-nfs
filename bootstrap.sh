@@ -7,5 +7,5 @@ AWS_S3_URL=${AWS_S3_URL:-${URL}}
 AWS_S3_BUCKET=${AWS_S3_BUCKET:-${BUCKET}}
 AWS_S3_MOUNT=${AWS_S3_MOUNT:-${MOUNT}}
 
-/usr/bin/s3fs.sh  &
+/usr/bin/docker-entrypoint.sh &
 /usr/bin/nfsd.sh
