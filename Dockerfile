@@ -13,21 +13,10 @@ COPY nfsd.sh /usr/bin/nfsd.sh
 RUN chmod +x /usr/bin/nfsd.sh
 # --- nfs-server-alpine ---
 
-# --- s3fs-nfs ---
-COPY bootstrap.sh /usr/bin/bootstrap.sh
-RUN chmod +x /usr/bin/bootstrap.sh
-
-ENV ACCESS_KEY_ID=
-ENV SECRET_ACCESS_KEY= 
-ENV URL=
-ENV BUCKET= 
-ENV MOUNT=
-# --- s3fs-nfs ---
-
 ENV SHARED_DIRECTORY $AWS_S3_MOUNT
 ENV SYNC true
 
-ENTRYPOINT [ "tini", "-g", "--", "bootstrap.sh" ]
+ENTRYPOINT docker-entrypoint.sh;nfsd.sh
 
 EXPOSE 2049
 
