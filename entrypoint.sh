@@ -12,6 +12,6 @@ echo "  AWS_S3_SECRET_ACCESS_KEY=${AWS_S3_SECRET_ACCESS_KEY}"
 echo "  AWS_S3_BUCKET=${AWS_S3_BUCKET}"
 echo "  AWS_S3_URL=${AWS_S3_URL}"
 
-/usr/bin/docker-entrypoint.sh "$@"
+/usr/local/bin/docker-entrypoint.sh "$@"
 
 /usr/bin/nfsd.sh
