@@ -11,6 +11,7 @@ echo "  AWS_S3_ACCESS_KEY_ID=${AWS_S3_ACCESS_KEY_ID}"
 echo "  AWS_S3_SECRET_ACCESS_KEY=${AWS_S3_SECRET_ACCESS_KEY}"
 echo "  AWS_S3_BUCKET=${AWS_S3_BUCKET}"
 echo "  AWS_S3_URL=${AWS_S3_URL}"
+echo "  AWS_S3_MOUNT=${AWS_S3_MOUNT}"
 
 /usr/local/bin/docker-entrypoint.sh "$@"
 
