@@ -4,7 +4,7 @@
 A simple way to share OSS as NFS server.
 
 ## Overview
-Due to OSS specify system, container may need more privileges to start, you can simply put `--privileged`, or add those precise parameters
+Due to OSS special file system, container may need more privileges to start, you can simply put `--privileged`, or add those precise parameters
 - `-device /dev/fuse`
 - `--cap-add SYS_ADMIN`
 - `--security-opt apparmor:unconfined`
